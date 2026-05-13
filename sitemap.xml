@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+    <!-- Főoldal -->
+    <url>
+        <loc>https://www.agripro.hu/</loc>
+        <lastmod>2025-05-09</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="hu" href="https://www.agripro.hu/"/>
+    </url>
+
+    <!-- Termékek oldal -->
+    <url>
+        <loc>https://www.agripro.hu/pages/termekek.html</loc>
+        <lastmod>2025-05-09</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Traktorok -->
+    <url>
+        <loc>https://www.agripro.hu/pages/termekek.html?kat=traktorok</loc>
+        <lastmod>2025-05-09</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Kombájnok -->
+    <url>
+        <loc>https://www.agripro.hu/pages/termekek.html?kat=kombajnok</loc>
+        <lastmod>2025-05-09</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Talajművelők -->
+    <url>
+        <loc>https://www.agripro.hu/pages/termekek.html?kat=talajmuvelok</loc>
+        <lastmod>2025-05-09</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Vetőgépek -->
+    <url>
+        <loc>https://www.agripro.hu/pages/termekek.html?kat=vetogepek</loc>
+        <lastmod>2025-05-09</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Permetezők -->
+    <url>
+        <loc>https://www.agripro.hu/pages/termekek.html?kat=permetezok</loc>
+        <lastmod>2025-05-09</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Alkatrészek -->
+    <url>
+        <loc>https://www.agripro.hu/pages/termekek.html?kat=alkatreszek</loc>
+        <lastmod>2025-05-09</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Kapcsolat -->
+    <url>
+        <loc>https://www.agripro.hu/pages/kapcsolat.html</loc>
+        <lastmod>2025-05-09</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+</urlset>

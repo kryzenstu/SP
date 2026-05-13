@@ -1,0 +1,17 @@
+# AgriPro robots.txt
+# https://www.agripro.hu
+
+User-agent: *
+Allow: /
+
+# Rendszer fájlok kizárása
+Disallow: /admin/
+Disallow: /api/
+Disallow: /tmp/
+Disallow: /*.json$
+
+# Sitemap
+Sitemap: https://www.agripro.hu/sitemap.xml
+
+# Kereső crawler gyorsítótár
+Crawl-delay: 1

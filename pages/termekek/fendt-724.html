@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fendt 724 Vario GEN7 – AgriPro</title>
+    <meta name="description" content="Fendt 724 Vario GEN7 traktor — 240 LE, Vario fokozatmentes váltó, Fendt ONE kezelőrendszer. Részletes leírás és árajánlat az AgriPrótól.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231B4332'/><path d='M7 22C7 15 11 10 16 9C21 10 25 15 25 22' stroke='%23D4A373' stroke-width='2.5' stroke-linecap='round' fill='none'/><circle cx='16' cy='22' r='3.5' fill='%23D4A373'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        [data-animate] { opacity: 1 !important; transform: none !important; }
+        .page-hero { background: var(--clr-primary); padding: calc(var(--nav-h) + 36px) 0 40px; }
+        .page-hero__bc { display: flex; align-items: center; gap: 8px; font-size: .78rem; color: rgba(255,255,255,.55); margin-bottom: 12px; flex-wrap: wrap; }
+        .page-hero__bc a { color: var(--clr-accent); }
+        .page-hero h1 { color: #fff; font-size: clamp(1.4rem, 3.5vw, 2.2rem); margin-bottom: 8px; }
+        .page-hero p  { color: rgba(255,255,255,.65); font-size: .95rem; }
+        .prod-wrap { padding: 56px 0 80px; }
+        .prod-layout { display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start; }
+        .prod-img { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 16/9; background: var(--clr-bg-alt); margin-bottom: 36px; }
+        .prod-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .prod-desc h2 { font-size: 1.2rem; font-weight: 700; margin: 32px 0 12px; color: var(--clr-text); }
+        .prod-desc p { font-size: .925rem; color: var(--clr-text-lt); line-height: 1.75; margin-bottom: 14px; }
+        .feat-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 32px; }
+        .feat-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(27,67,50,.07); border: 1px solid rgba(27,67,50,.15); color: var(--clr-primary); border-radius: 99px; padding: 5px 14px; font-size: .8rem; font-weight: 600; }
+        .spec-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+        .spec-table tr { border-bottom: 1px solid var(--clr-border); }
+        .spec-table tr:last-child { border-bottom: none; }
+        .spec-table td { padding: 10px 12px; }
+        .spec-table td:first-child { color: var(--clr-text-lt); width: 45%; }
+        .spec-table td:last-child { font-weight: 600; color: var(--clr-text); }
+        .prod-sidebar { position: sticky; top: calc(var(--nav-h) + 24px); }
+        .prod-price-box { background: #fff; border: 1.5px solid var(--clr-border); border-radius: var(--r-lg); padding: 28px 24px; margin-bottom: 16px; }
+        .prod-price-box__label { font-size: .72rem; color: var(--clr-text-lt); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+        .prod-price-box__price { font-size: 1.9rem; font-weight: 800; color: var(--clr-primary); line-height: 1.1; margin-bottom: 4px; }
+        .prod-price-box__note { font-size: .75rem; color: var(--clr-text-lt); margin-bottom: 22px; }
+        .prod-price-box .btn { width: 100%; text-align: center; margin-bottom: 10px; display: block; }
+        .prod-meta-box { background: var(--clr-bg-alt); border-radius: var(--r-lg); padding: 20px 24px; margin-bottom: 16px; }
+        .prod-meta-box h4 { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--clr-text-lt); margin-bottom: 12px; }
+        .prod-meta-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: .875rem; border-bottom: 1px solid var(--clr-border); }
+        .prod-meta-row:last-child { border-bottom: none; }
+        .prod-meta-row span:first-child { color: var(--clr-text-lt); }
+        .prod-meta-row span:last-child { font-weight: 700; color: var(--clr-text); }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: .875rem; font-weight: 600; color: var(--clr-text-lt); text-decoration: none; margin-bottom: 32px; transition: color .15s; }
+        .back-link:hover { color: var(--clr-primary); }
+        .cta-band { background: var(--clr-primary); border-radius: var(--r-lg); padding: 48px 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 64px; }
+        .cta-band h2 { color: #fff; font-size: clamp(1.1rem, 2.5vw, 1.5rem); margin-bottom: 8px; }
+        .cta-band p { color: rgba(255,255,255,.7); font-size: .9rem; }
+        .cta-band__btns { display: flex; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+        @media (max-width: 900px) { .prod-layout { grid-template-columns: 1fr; } .prod-sidebar { position: static; } .cta-band { padding: 32px 24px; text-align: center; justify-content: center; } }
+    </style>
+</head>
+<body>
+
+<header class="header scrolled" id="header" role="banner">
+    <div class="container">
+        <nav class="nav" role="navigation" aria-label="Főmenü">
+            <a href="../../index.html" class="nav__logo" aria-label="AgriPro főoldal">
+                <div class="logo">
+                    <svg class="logo__icon" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true"><rect width="36" height="36" rx="8" fill="#1B4332"/><path d="M8 26C8 18 12 12 18 11C24 12 28 18 28 26" stroke="#D4A373" stroke-width="2.5" stroke-linecap="round"/><circle cx="18" cy="26" r="4" fill="#D4A373"/></svg>
+                    <span class="logo__text">Agri<strong>Pro</strong></span>
+                </div>
+            </a>
+            <ul class="nav__menu" role="menubar">
+                <li role="none"><a href="../../index.html" class="nav__link" role="menuitem">Főoldal</a></li>
+                <li class="nav__item--has-dropdown" role="none">
+                    <button class="nav__link nav__dropdown-toggle nav__link--active" aria-expanded="false" aria-haspopup="true" role="menuitem">Termékek <svg class="dropdown-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+                    <div class="nav__dropdown" role="menu">
+                        <a href="../termekek.html?kat=traktorok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🚜</span>Traktorok</a>
+                        <a href="../termekek.html?kat=kombajnok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🌾</span>Kombájnok</a>
+                        <a href="../termekek.html?kat=talajmuvelok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">⚙️</span>Talajművelők</a>
+                        <a href="../termekek.html?kat=vetogepek" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🌱</span>Vetőgépek</a>
+                        <a href="../termekek.html?kat=permetezok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">💧</span>Permetezők</a>
+                    </div>
+                </li>
+                <li role="none"><a href="../../index.html#markak" class="nav__link" role="menuitem">Márkák</a></li>
+                <li role="none"><a href="../rolunk.html" class="nav__link" role="menuitem">Rólunk</a></li>
+                <li role="none"><a href="../szerviz.html" class="nav__link" role="menuitem">Szerviz</a></li>
+                <li role="none"><a href="../kapcsolat.html" class="nav__link" role="menuitem">Kapcsolat</a></li>
+            </ul>
+            <div class="nav__actions">
+                <button class="icon-btn" id="searchToggle" aria-label="Keresés"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+                <button class="icon-btn fav-btn" id="favToggle" aria-label="Kedvencek"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="fav-badge" id="favBadge" hidden>0</span></button>
+                <a href="../kapcsolat.html" class="btn btn--primary btn--sm">Ajánlatkérés</a>
+                <button class="hamburger" id="hamburger" aria-label="Menü" aria-expanded="false"><span class="hamburger__bar"></span><span class="hamburger__bar"></span><span class="hamburger__bar"></span></button>
+            </div>
+        </nav>
+    </div>
+    <div class="search-overlay" id="searchOverlay" hidden role="search">
+        <div class="container">
+            <div class="search-overlay__inner">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="search" id="searchInput" class="search-overlay__input" placeholder="Keresés: gép neve, márka, kategória..." autocomplete="off">
+                <button class="search-overlay__close" id="searchClose" aria-label="Bezárás"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+            </div>
+            <div class="search-results" id="searchResults" hidden></div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="page-hero">
+        <div class="container">
+            <nav class="page-hero__bc" aria-label="Navigáció">
+                <a href="../../index.html">Főoldal</a><span>›</span>
+                <a href="../termekek.html">Termékek</a><span>›</span>
+                <span>Fendt 724 Vario GEN7</span>
+            </nav>
+            <h1>Fendt 724 Vario GEN7</h1>
+            <p>Traktor · Fendt · 240 LE · 2024</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="prod-wrap">
+            <a href="../termekek.html" class="back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                Vissza a terméklistához
+            </a>
+
+            <div class="prod-layout">
+                <div>
+                    <div class="prod-img">
+                        <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=900&q=80" alt="Fendt 724 Vario GEN7 traktor">
+                    </div>
+                    <div class="prod-desc">
+                        <h2>A precíziós gazdálkodás zöld csillaga</h2>
+                        <p>A Fendt 724 Vario GEN7 a hetedik generációs Vario-technológia csúcsát képviseli a közepes-nagy teljesítményű traktorok piacán. A 240 lóerős, Stage V emissziós szabványnak megfelelő motor és a Vario fokozatmentes váltó kombinációja olyan hajtáslánc-hatékonyságot biztosít, ami négyzetkilométerenként érzékelhető üzemanyag-megtakarítást jelent a versenytársakkal szemben.</p>
+                        <p>A Fendt ONE kezelési ökoszisztéma újradefiniálja az ember–gép interakciót. Az egyetlen joystick és az érintőképernyős iDrive vezérlő segítségével minden funkció egyetlen mozdulattal elérhető — anélkül, hogy a vezető levenne a szemét a tarlóról. A VarioDoc Pro precíziós gazdálkodási csomag automatikus GPS-alapú nyomvonalkövetést, variable rate alkalmazást és teljes gépadatgyűjtést tesz lehetővé.</p>
+                        <p>A GEN7-sorozat új VarioDrive hátsóhíd-rendszere akár 10 000 kg emelési kapacitást biztosít, míg az opcionális első PTO lehetővé teszi a kétoldalú munkavégzést. A TMS talajkímélő rendszer önállóan optimalizálja a szárnyúszókat a gumiabroncs-csúszás csökkentéséhez.</p>
+
+                        <div class="feat-tags">
+                            <span class="feat-tag">240 LE motor</span>
+                            <span class="feat-tag">Vario GEN7 váltó</span>
+                            <span class="feat-tag">Fendt ONE kezelés</span>
+                            <span class="feat-tag">VarioDoc Pro GPS</span>
+                            <span class="feat-tag">TMS talajkímélő</span>
+                            <span class="feat-tag">Stage V motor</span>
+                            <span class="feat-tag">VarioDrive híd</span>
+                            <span class="feat-tag">50 km/h ECO mód</span>
+                        </div>
+
+                        <h2>Műszaki adatok</h2>
+                        <table class="spec-table">
+                            <tr><td>Motor teljesítmény</td><td>240 LE (177 kW)</td></tr>
+                            <tr><td>Váltó típusa</td><td>Vario (fokozatmentes, GEN7)</td></tr>
+                            <tr><td>Hajtás</td><td>4WD (összkerék-hajtás)</td></tr>
+                            <tr><td>Max. sebesség</td><td>50 km/h (ECO módban)</td></tr>
+                            <tr><td>Emelési kapacitás (hátsó)</td><td>10 000 kg</td></tr>
+                            <tr><td>PTO sebesség</td><td>540 / 1 000 ford/perc</td></tr>
+                            <tr><td>Üzemanyag-tartály</td><td>385 l + 42 l AdBlue</td></tr>
+                            <tr><td>Üzemi tömeg</td><td>9 400 kg</td></tr>
+                            <tr><td>Gumiméret (hátsó)</td><td>710/70 R42</td></tr>
+                            <tr><td>Évjárat</td><td>2024</td></tr>
+                            <tr><td>Kibocsátási szabvány</td><td>Stage V</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <aside class="prod-sidebar">
+                    <div class="prod-price-box">
+                        <div class="prod-price-box__label">Ártól</div>
+                        <div class="prod-price-box__price">32 000 000 Ft</div>
+                        <div class="prod-price-box__note">Az ár tájékoztató jellegű, egyedi konfiguráció esetén változhat.</div>
+                        <a href="../kapcsolat.html" class="btn btn--primary">Ajánlatkérés</a>
+                        <a href="../kapcsolat.html" class="btn btn--outline">Kapcsolatfelvétel</a>
+                    </div>
+                    <div class="prod-meta-box">
+                        <h4>Főbb adatok</h4>
+                        <div class="prod-meta-row"><span>Kategória</span><span>Traktorok</span></div>
+                        <div class="prod-meta-row"><span>Gyártó</span><span>Fendt</span></div>
+                        <div class="prod-meta-row"><span>Teljesítmény</span><span>240 LE</span></div>
+                        <div class="prod-meta-row"><span>Váltó</span><span>Vario GEN7</span></div>
+                        <div class="prod-meta-row"><span>Hajtás</span><span>4WD</span></div>
+                        <div class="prod-meta-row"><span>Évjárat</span><span>2024</span></div>
+                        <div class="prod-meta-row"><span>Max. sebesség</span><span>50 km/h</span></div>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="cta-band">
+                <div>
+                    <h2>Érdekli ez a gép?</h2>
+                    <p>Kérjen személyre szabott árajánlatot vagy egyeztessen próbavezetési lehetőségről.</p>
+                </div>
+                <div class="cta-band__btns">
+                    <a href="../kapcsolat.html" class="btn btn--accent">Ajánlatkérés</a>
+                    <a href="tel:+36301234567" class="btn btn--outline" style="color:#fff;border-color:rgba(255,255,255,.4)">Hívjon most</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+    <div class="footer__bottom">
+        <div class="container">
+            <div class="footer__bottom-row">
+                <p class="footer__copy">© 2025 AgriPro – Minden jog fenntartva.</p>
+                <nav class="footer__legal" aria-label="Jogi"><a href="#">Adatvédelem</a><a href="#">ÁSZF</a><a href="#">Impresszum</a></nav>
+            </div>
+        </div>
+    </div>
+</footer>
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="Vissza a tetejére" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<script src="../../js/main.js" defer></script>
+</body>
+</html>

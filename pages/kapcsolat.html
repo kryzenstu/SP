@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapcsolat – AgriPro | Ajánlatkérés, Telefon, Cím</title>
+    <meta name="description" content="Vegye fel a kapcsolatot az AgriPro csapatával. Telefonszám, e-mail, telephely cím és nyitvatartás. Ajánlatkérés mezőgazdasági gépekre.">
+    <link rel="canonical" href="https://www.agripro.hu/pages/kapcsolat.html">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231B4332'/><path d='M7 22C7 15 11 10 16 9C21 10 25 15 25 22' stroke='%23D4A373' stroke-width='2.5' stroke-linecap='round' fill='none'/><circle cx='16' cy='22' r='3.5' fill='%23D4A373'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* data-animate láthatóság felülírás ezen az oldalon */
+        [data-animate] { opacity: 1 !important; transform: none !important; }
+
+        .page-hero { background: var(--clr-primary); padding: calc(var(--nav-h) + 36px) 0 40px; }
+        .page-hero__bc { display: flex; align-items: center; gap: 8px; font-size: .78rem; color: rgba(255,255,255,.55); margin-bottom: 12px; }
+        .page-hero__bc a { color: var(--clr-accent); }
+        .page-hero h1 { color: #fff; font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: 8px; }
+        .page-hero p  { color: rgba(255,255,255,.65); font-size: .95rem; }
+
+        .map-wrap { border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--clr-border); }
+        .map-iframe { width: 100%; height: 260px; border: 0; display: block; }
+    </style>
+</head>
+<body>
+
+<header class="header scrolled" id="header" role="banner">
+    <div class="container">
+        <nav class="nav" role="navigation" aria-label="Főmenü">
+            <a href="../index.html" class="nav__logo" aria-label="AgriPro főoldal">
+                <div class="logo">
+                    <svg class="logo__icon" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                        <rect width="36" height="36" rx="8" fill="#1B4332"/>
+                        <path d="M8 26C8 18 12 12 18 11C24 12 28 18 28 26" stroke="#D4A373" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="18" cy="26" r="4" fill="#D4A373"/>
+                    </svg>
+                    <span class="logo__text">Agri<strong>Pro</strong></span>
+                </div>
+            </a>
+            <ul class="nav__menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav__link" role="menuitem">Főoldal</a></li>
+                <li class="nav__item--has-dropdown" role="none">
+                    <button class="nav__link nav__dropdown-toggle" aria-expanded="false" aria-haspopup="true" role="menuitem">
+                        Termékek <svg class="dropdown-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    </button>
+                    <div class="nav__dropdown" role="menu">
+                        <a href="termekek.html?kat=traktorok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🚜</span>Traktorok</a>
+                        <a href="termekek.html?kat=kombajnok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🌾</span>Kombájnok</a>
+                        <a href="termekek.html?kat=talajmuvelok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">⚙️</span>Talajművelők</a>
+                    </div>
+                </li>
+                <li role="none"><a href="../index.html#markak" class="nav__link" role="menuitem">Márkák</a></li>
+                <li role="none"><a href="rolunk.html" class="nav__link" role="menuitem">Rólunk</a></li>
+                <li role="none"><a href="szerviz.html" class="nav__link" role="menuitem">Szerviz</a></li>
+                <li role="none"><a href="kapcsolat.html" class="nav__link nav__link--active" role="menuitem">Kapcsolat</a></li>
+            </ul>
+            <div class="nav__actions">
+                <button class="icon-btn" id="searchToggle" aria-label="Keresés">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
+                <button class="icon-btn fav-btn" id="favToggle" aria-label="Kedvencek">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <span class="fav-badge" id="favBadge" hidden>0</span>
+                </button>
+                <a href="#ajanlatkeres" class="btn btn--primary btn--sm">Ajánlatkérés</a>
+                <button class="hamburger" id="hamburger" aria-label="Menü" aria-expanded="false">
+                    <span class="hamburger__bar"></span><span class="hamburger__bar"></span><span class="hamburger__bar"></span>
+                </button>
+            </div>
+        </nav>
+    </div>
+    <div class="search-overlay" id="searchOverlay" hidden role="search">
+        <div class="container">
+            <div class="search-overlay__inner">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="search" id="searchInput" class="search-overlay__input" placeholder="Keresés..." autocomplete="off">
+                <button class="search-overlay__close" id="searchClose" aria-label="Bezárás">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="search-results" id="searchResults" hidden></div>
+        </div>
+    </div>
+</header>
+
+<main id="main-content">
+
+<!-- Page Hero -->
+<div class="page-hero">
+    <div class="container">
+        <nav class="page-hero__bc" aria-label="Navigáció">
+            <a href="../index.html">Főoldal</a><span>›</span><span>Kapcsolat</span>
+        </nav>
+        <h1>Kapcsolatfelvétel</h1>
+        <p>24 órán belül válaszolunk – hétköznap, hétvégén is.</p>
+    </div>
+</div>
+
+<!-- Gyors elérhetőségek kártyák -->
+<section class="section" style="padding-bottom:48px;">
+    <div class="container">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:0;">
+
+            <div style="background:#fff;border:1px solid var(--clr-border);border-radius:var(--r-lg);padding:28px 24px;text-align:center;" data-animate="fade-up">
+                <div style="width:52px;height:52px;background:rgba(27,67,50,.08);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--clr-primary);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <h3 style="font-size:1rem;margin-bottom:6px;">Telefonon</h3>
+                <a href="tel:+36301234567" style="color:var(--clr-primary);font-weight:600;font-size:1.05rem;">+36 30 123 4567</a>
+                <p style="font-size:.8rem;color:var(--clr-text-lt);margin-top:4px;">H–P: 08:00–17:00</p>
+            </div>
+
+            <div style="background:#fff;border:1px solid var(--clr-border);border-radius:var(--r-lg);padding:28px 24px;text-align:center;" data-animate="fade-up" data-delay="80">
+                <div style="width:52px;height:52px;background:rgba(27,67,50,.08);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--clr-primary);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <h3 style="font-size:1rem;margin-bottom:6px;">E-mailben</h3>
+                <a href="mailto:info@agripro.hu" style="color:var(--clr-primary);font-weight:600;font-size:1.05rem;">info@agripro.hu</a>
+                <p style="font-size:.8rem;color:var(--clr-text-lt);margin-top:4px;">Válasz: 24 órán belül</p>
+            </div>
+
+            <div style="background:#fff;border:1px solid var(--clr-border);border-radius:var(--r-lg);padding:28px 24px;text-align:center;" data-animate="fade-up" data-delay="160">
+                <div style="width:52px;height:52px;background:rgba(27,67,50,.08);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--clr-primary);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <h3 style="font-size:1rem;margin-bottom:6px;">Személyesen</h3>
+                <p style="color:var(--clr-text);font-weight:500;font-size:.95rem;">5600 Békéscsaba,<br>Agráripar út 12.</p>
+            </div>
+
+            <div style="background:#fff;border:1px solid var(--clr-border);border-radius:var(--r-lg);padding:28px 24px;text-align:center;" data-animate="fade-up" data-delay="240">
+                <div style="width:52px;height:52px;background:rgba(27,67,50,.08);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--clr-primary);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h3 style="font-size:1rem;margin-bottom:6px;">Nyitvatartás</h3>
+                <p style="color:var(--clr-text);font-weight:500;font-size:.95rem;">H–P: 08:00–17:00<br>Szo: 09:00–12:00</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Fő kapcsolat szekció -->
+<section class="section section--bg" id="ajanlatkeres" style="padding-top:48px;">
+    <div class="container">
+        <div class="contact-layout" style="margin-bottom:0;">
+
+            <!-- Bal: cégadatok + térkép -->
+            <div data-animate="fade-right">
+                <span class="section__tag">Írjon nekünk</span>
+                <h2 class="section__title" style="margin-bottom:16px;">
+                    Kérjen egyedi<br>
+                    <span class="text-accent">árajánlatot</span>
+                </h2>
+                <p class="section__sub" style="margin-bottom:36px;">
+                    Adja meg kérdését és kollégáink az Önre szabott ajánlattal keresik meg.
+                    Legyen szó új gép vásárlásról, cseréről vagy szervizről – segítünk.
+                </p>
+
+                <!-- Elérhetőségek -->
+                <div style="background:#fff;border:1px solid var(--clr-border);border-radius:var(--r-lg);padding:24px;margin-bottom:24px;">
+                    <h3 style="font-size:.875rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-text-lt);margin-bottom:16px;">Elérhetőségek</h3>
+                    <ul style="display:flex;flex-direction:column;gap:14px;">
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:.875rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--clr-primary)" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <div><strong style="display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--clr-text-lt);margin-bottom:2px;">Telefon</strong><a href="tel:+36301234567" style="color:var(--clr-primary);font-weight:600;">+36 30 123 4567</a></div>
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:.875rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--clr-primary)" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <div><strong style="display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--clr-text-lt);margin-bottom:2px;">Telephely</strong>5600 Békéscsaba, Agráripar út 12.</div>
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:.875rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--clr-primary)" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <div><strong style="display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--clr-text-lt);margin-bottom:2px;">Nyitvatartás</strong>H–P: 08:00–17:00 | Szo: 09:00–12:00</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Térkép -->
+                <div class="map-wrap">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44271.68!2d21.088!3d46.683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4746ddb30ec38b25%3A0x400c4290c1e1a20!2zQsOpa2Vzc3NhYmE!5e0!3m2!1shu!2shu!4v1"
+                            class="map-iframe" allowfullscreen loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="AgriPro telephely – Békéscsaba"></iframe>
+                </div>
+            </div>
+
+            <!-- Jobb: form -->
+            <div class="contact-form-wrap" data-animate="fade-left">
+                <h3 class="contact-form__title">Ajánlatkérő űrlap</h3>
+                <p class="contact-form__sub">Minden mező kitöltése segít pontosabb ajánlatot adni.</p>
+
+                <form class="contact-form" id="contactForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="cName">Teljes neve *</label>
+                            <input type="text" id="cName" name="name" class="form-input" placeholder="pl. Kovács István" required autocomplete="name">
+                            <span class="form-error" role="alert"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="cPhone">Telefonszám</label>
+                            <input type="tel" id="cPhone" name="phone" class="form-input" placeholder="+36 30 ..." autocomplete="tel">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="cEmail">E-mail cím *</label>
+                        <input type="email" id="cEmail" name="email" class="form-input" placeholder="email@example.hu" required autocomplete="email">
+                        <span class="form-error" role="alert"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="cCompany">Gazdaság / Cég neve</label>
+                        <input type="text" id="cCompany" name="company" class="form-input" placeholder="pl. Kovács Gazdaság Kft." autocomplete="organization">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="cSubject">Érdeklődés tárgya</label>
+                        <select id="cSubject" name="subject" class="form-select">
+                            <option value="">Válasszon témát...</option>
+                            <option value="traktor">Traktor vásárlás</option>
+                            <option value="kombajn">Kombájn vásárlás</option>
+                            <option value="munkagep">Munkagép vásárlás</option>
+                            <option value="szerviz">Szervizszolgáltatás</option>
+                            <option value="finanszirozas">Finanszírozás kérdés</option>
+                            <option value="csere">Csere / beváltás</option>
+                            <option value="egyeb">Egyéb kérdés</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="cMessage">Üzenet / Kérdés *</label>
+                        <textarea id="cMessage" name="message" class="form-textarea" rows="5"
+                                  placeholder="Írja le, hogy milyen gépre keres ajánlatot, vagy miben segíthetünk..." required></textarea>
+                        <span class="form-error" role="alert"></span>
+                    </div>
+
+                    <div class="form-group form-group--check">
+                        <label class="form-check-label">
+                            <input type="checkbox" id="cGdpr" name="gdpr" required>
+                            <span>Elfogadom az <a href="#" class="inline-link">Adatvédelmi tájékoztatót</a> és hozzájárulok adataim kezeléséhez.</span>
+                        </label>
+                        <span class="form-error" role="alert"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn--primary btn--full" id="submitBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        Ajánlatkérés elküldése
+                    </button>
+                    <p class="form-note">* Kötelező mező. 24 órán belül felvesszük Önnel a kapcsolatot.</p>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+    <div class="footer__bottom">
+        <div class="container">
+            <div class="footer__bottom-row">
+                <p class="footer__copy">© 2025 AgriPro Kft. – Minden jog fenntartva.</p>
+                <nav class="footer__legal">
+                    <a href="#">Adatvédelem</a>
+                    <a href="#">ÁSZF</a>
+                    <a href="#">Cookie kezelés</a>
+                    <a href="#">Impresszum</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="Vissza a tetejére" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<div class="toast-container" id="toastContainer" aria-live="polite" role="status"></div>
+<script src="../js/main.js" defer></script>
+</body>
+</html>

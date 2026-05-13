@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termékek – AgriPro | Traktorok, Kombájnok, Munkagépek</title>
+    <meta name="description" content="Böngésszen AgriPro teljes gépkínálatában. Szűrjön kategória, márka és ár szerint.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231B4332'/><path d='M7 22C7 15 11 10 16 9C21 10 25 15 25 22' stroke='%23D4A373' stroke-width='2.5' stroke-linecap='round' fill='none'/><circle cx='16' cy='22' r='3.5' fill='%23D4A373'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        [data-animate] { opacity: 1 !important; transform: none !important; }
+
+        /* ── Page hero ── */
+        .page-hero { background: var(--clr-primary); padding: calc(var(--nav-h) + 36px) 0 40px; }
+        .page-hero__bc { display: flex; align-items: center; gap: 8px; font-size: .78rem; color: rgba(255,255,255,.55); margin-bottom: 12px; }
+        .page-hero__bc a { color: var(--clr-accent); }
+        .page-hero h1 { color: #fff; font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: 8px; }
+        .page-hero p  { color: rgba(255,255,255,.65); font-size: .95rem; }
+
+        /* ── Vízszintes szűrő sáv ── */
+        .hf-wrap {
+            padding: 32px 0 80px;
+        }
+
+        .hf-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: #fff;
+            border: 1.5px solid var(--clr-border);
+            border-radius: var(--r-lg);
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Kereső */
+        .hf-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 200px;
+            padding: 6px 0;
+            border-right: 1.5px solid var(--clr-border);
+            padding-right: 16px;
+            margin-right: 4px;
+        }
+        .hf-search svg { color: var(--clr-text-lt); flex-shrink: 0; }
+        .hf-search input {
+            flex: 1;
+            border: none;
+            font-family: inherit;
+            font-size: .9rem;
+            color: var(--clr-text);
+            outline: none;
+            background: transparent;
+        }
+        .hf-search input::placeholder { color: var(--clr-text-lt); }
+
+        /* Dropdown szűrők */
+        .hf-dropdown {
+            position: relative;
+        }
+        .hf-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--clr-bg-alt);
+            border: 1.5px solid var(--clr-border);
+            border-radius: var(--r-md);
+            font-family: inherit;
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--clr-text);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: border-color .2s, background .2s;
+            user-select: none;
+        }
+        .hf-btn svg { transition: transform .22s; flex-shrink: 0; }
+        .hf-btn.active { background: rgba(27,67,50,.08); border-color: var(--clr-primary); color: var(--clr-primary); }
+        .hf-btn.active svg { transform: rotate(180deg); }
+        .hf-btn .hf-count {
+            background: var(--clr-primary);
+            color: #fff;
+            font-size: .65rem;
+            font-weight: 700;
+            border-radius: 99px;
+            padding: 1px 6px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Dropdown panel */
+        .hf-panel {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            min-width: 220px;
+            background: #fff;
+            border: 1.5px solid var(--clr-border);
+            border-radius: var(--r-lg);
+            box-shadow: 0 8px 32px rgba(0,0,0,.12);
+            padding: 12px 4px;
+            z-index: 200;
+        }
+        .hf-panel.open { display: block; }
+
+        /* Panel: checkbox lista */
+        .hf-cb-list { padding: 0 12px; }
+        .hf-cb-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 4px;
+            font-size: .875rem;
+            color: var(--clr-text-md);
+            cursor: pointer;
+            border-radius: var(--r-sm);
+            transition: background .12s, color .12s;
+        }
+        .hf-cb-row:hover { background: var(--clr-bg-alt); color: var(--clr-primary); }
+        .hf-cb-row input { accent-color: var(--clr-primary); width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; }
+        .hf-cb-row span { flex: 1; }
+        .hf-cb-row .hf-n { font-size: .7rem; color: var(--clr-text-lt); background: var(--clr-bg-alt); border-radius: 99px; padding: 1px 7px; }
+
+        /* Panel: ár slider */
+        .hf-price-panel { padding: 8px 16px 4px; min-width: 260px; }
+        .hf-price-val {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .hf-price-val span { font-size: .8rem; color: var(--clr-text-lt); }
+        .hf-price-val strong { font-size: 1rem; color: var(--clr-primary); }
+        .hf-price-slider { width: 100%; accent-color: var(--clr-primary); cursor: pointer; }
+        .hf-price-minmax { display: flex; justify-content: space-between; font-size: .72rem; color: var(--clr-text-lt); margin-top: 6px; margin-bottom: 8px; }
+
+        /* Rendezés */
+        .hf-sort-wrap { margin-left: auto; }
+        .hf-sort {
+            padding: 9px 36px 9px 14px;
+            border: 1.5px solid var(--clr-border);
+            border-radius: var(--r-md);
+            font-family: inherit;
+            font-size: .85rem;
+            color: var(--clr-text);
+            background: var(--clr-bg-alt);
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231B4332' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            font-weight: 600;
+            transition: border-color .2s;
+        }
+        .hf-sort:focus { border-color: var(--clr-primary); }
+
+        /* Törlés gomb */
+        .hf-reset {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--clr-text-lt);
+            cursor: pointer;
+            padding: 8px 10px;
+            border-radius: var(--r-sm);
+            transition: color .15s;
+            white-space: nowrap;
+        }
+        .hf-reset:hover { color: var(--clr-primary); }
+
+        /* Találatszám + chipek sor */
+        .hf-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            min-height: 28px;
+        }
+        .hf-meta__count {
+            font-size: .875rem;
+            color: var(--clr-text-lt);
+            margin-right: 4px;
+        }
+        .hf-meta__count strong { color: var(--clr-primary); font-weight: 700; }
+
+        /* Aktív chipek */
+        .ac-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(27,67,50,.08);
+            border: 1px solid rgba(27,67,50,.2);
+            color: var(--clr-primary);
+            border-radius: 99px;
+            padding: 4px 10px 4px 12px;
+            font-size: .78rem;
+            font-weight: 600;
+        }
+        .ac-chip button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--clr-primary);
+            display: flex;
+            align-items: center;
+            opacity: .6;
+            transition: opacity .15s;
+            padding: 0;
+        }
+        .ac-chip button:hover { opacity: 1; }
+
+        /* ── Termék rács ── */
+        .pg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 1px solid var(--clr-border);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            transition: transform .25s, box-shadow .25s, border-color .25s;
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: transparent; }
+
+        .pc-img { position: relative; aspect-ratio: 16/10; overflow: hidden; background: var(--clr-bg-alt); }
+        .pc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+        .product-card:hover .pc-img img { transform: scale(1.05); }
+        .pc-badge {
+            position: absolute; top: 10px; left: 10px;
+            font-size: .65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: .06em; padding: 3px 9px; border-radius: 99px;
+        }
+        .pc-badge--new  { background: var(--clr-primary); color: #fff; }
+        .pc-badge--deal { background: var(--clr-accent); color: #0F2A1E; }
+        .pc-fav {
+            position: absolute; top: 8px; right: 8px;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255,255,255,.9); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--clr-text-lt);
+            transition: color .15s, transform .2s;
+        }
+        .pc-fav:hover { color: #e53e3e; transform: scale(1.12); }
+        .pc-fav.is-fav { color: #e53e3e; }
+        .pc-fav.is-fav svg { fill: #e53e3e; }
+
+        .pc-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+        .pc-meta2 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+        .pc-brand { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--clr-primary); }
+        .pc-year  { font-size: .72rem; color: var(--clr-text-lt); background: var(--clr-bg-alt); padding: 2px 7px; border-radius: 99px; }
+        .pc-name  { font-size: .95rem; font-weight: 700; color: var(--clr-text); margin-bottom: 6px; line-height: 1.3; }
+        .pc-desc  { font-size: .78rem; color: var(--clr-text-lt); line-height: 1.5; margin-bottom: 10px; flex: 1; }
+        .pc-specs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+        .pc-spec  { font-size: .68rem; font-weight: 500; color: var(--clr-text-md); background: var(--clr-bg-alt); padding: 2px 7px; border-radius: 5px; }
+        .pc-foot  {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 10px; border-top: 1px solid var(--clr-border);
+        }
+        .pc-price { display: flex; flex-direction: column; }
+        .pc-price span { font-size: .65rem; color: var(--clr-text-lt); }
+        .pc-price strong { font-size: 1rem; font-weight: 700; color: var(--clr-primary); }
+
+        /* Nincs találat */
+        .no-results {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 72px 24px;
+            text-align: center;
+            color: var(--clr-text-lt);
+            grid-column: 1 / -1;
+        }
+        .no-results svg { opacity: .35; margin-bottom: 16px; }
+        .no-results h3 { font-size: 1.1rem; color: var(--clr-text); margin-bottom: 8px; }
+        .no-results p { font-size: .9rem; max-width: 320px; }
+
+        /* Reszponzív */
+        @media (max-width: 1280px) { .pg { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 900px)  { .pg { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px)  { .pg { grid-template-columns: 1fr; } }
+        @media (max-width: 700px)  {
+            .hf-bar { gap: 8px; }
+            .hf-search { border-right: none; padding-right: 0; margin-right: 0; }
+            .hf-sort-wrap { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══ FEJLÉC ══ -->
+<header class="header scrolled" id="header" role="banner">
+    <div class="container">
+        <nav class="nav" role="navigation" aria-label="Főmenü">
+            <a href="../index.html" class="nav__logo" aria-label="AgriPro főoldalra">
+                <div class="logo">
+                    <svg class="logo__icon" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                        <rect width="36" height="36" rx="8" fill="#1B4332"/>
+                        <path d="M8 26C8 18 12 12 18 11C24 12 28 18 28 26" stroke="#D4A373" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="18" cy="26" r="4" fill="#D4A373"/>
+                    </svg>
+                    <span class="logo__text">Agri<strong>Pro</strong></span>
+                </div>
+            </a>
+            <ul class="nav__menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav__link" role="menuitem">Főoldal</a></li>
+                <li class="nav__item--has-dropdown" role="none">
+                    <button class="nav__link nav__dropdown-toggle nav__link--active" aria-expanded="false" aria-haspopup="true" role="menuitem">
+                        Termékek <svg class="dropdown-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    </button>
+                    <div class="nav__dropdown" role="menu">
+                        <a href="termekek.html?kat=traktorok"    class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🚜</span>Traktorok</a>
+                        <a href="termekek.html?kat=kombajnok"    class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🌾</span>Kombájnok</a>
+                        <a href="termekek.html?kat=talajmuvelok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">⚙️</span>Talajművelők</a>
+                        <a href="termekek.html?kat=vetogepek"    class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🌱</span>Vetőgépek</a>
+                        <a href="termekek.html?kat=permetezok"   class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">💧</span>Permetezők</a>
+                    </div>
+                </li>
+                <li role="none"><a href="../index.html#markak" class="nav__link" role="menuitem">Márkák</a></li>
+                <li role="none"><a href="rolunk.html" class="nav__link" role="menuitem">Rólunk</a></li>
+                <li role="none"><a href="szerviz.html" class="nav__link" role="menuitem">Szerviz</a></li>
+                <li role="none"><a href="kapcsolat.html" class="nav__link" role="menuitem">Kapcsolat</a></li>
+            </ul>
+            <div class="nav__actions">
+                <button class="icon-btn" id="searchToggle" aria-label="Keresés">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
+                <button class="icon-btn fav-btn" id="favToggle" aria-label="Kedvencek">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <span class="fav-badge" id="favBadge" hidden>0</span>
+                </button>
+                <a href="kapcsolat.html" class="btn btn--primary btn--sm">Ajánlatkérés</a>
+                <button class="hamburger" id="hamburger" aria-label="Menü" aria-expanded="false">
+                    <span class="hamburger__bar"></span><span class="hamburger__bar"></span><span class="hamburger__bar"></span>
+                </button>
+            </div>
+        </nav>
+    </div>
+    <div class="search-overlay" id="searchOverlay" hidden role="search">
+        <div class="container">
+            <div class="search-overlay__inner">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="search" id="searchInput" class="search-overlay__input" placeholder="Keresés: gép neve, márka, kategória..." autocomplete="off">
+                <button class="search-overlay__close" id="searchClose" aria-label="Bezárás">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="search-results" id="searchResults" hidden></div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- Page hero -->
+    <div class="page-hero">
+        <div class="container">
+            <nav class="page-hero__bc" aria-label="Navigáció">
+                <a href="../index.html">Főoldal</a><span>›</span><span>Termékek</span>
+            </nav>
+            <h1>Teljes gépkínálatunk</h1>
+            <p>10 prémium mezőgazdasági gép — szűrjön kategória, márka és ár szerint</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="hf-wrap">
+
+            <!-- ══ VÍZSZINTES SZŰRŐ SÁV ══ -->
+            <div class="hf-bar" id="hfBar">
+
+                <!-- Kereső -->
+                <div class="hf-search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <input type="search" id="productSearch" placeholder="Keresés géptípus, márka alapján..." oninput="filterProducts()" autocomplete="off">
+                </div>
+
+                <!-- Kategória dropdown -->
+                <div class="hf-dropdown" id="hfd-cat">
+                    <button class="hf-btn" onclick="toggleHfd('hfd-cat')" type="button">
+                        Kategória
+                        <span class="hf-count" id="catCount" style="display:none">0</span>
+                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l5 5 5-5"/></svg>
+                    </button>
+                    <div class="hf-panel" id="hfd-cat-panel">
+                        <div class="hf-cb-list">
+                            <label class="hf-cb-row"><input type="checkbox" class="cat-cb" value="traktorok" onchange="filterProducts()"><span>Traktorok</span><span class="hf-n">4</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="cat-cb" value="kombajnok" onchange="filterProducts()"><span>Kombájnok</span><span class="hf-n">2</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="cat-cb" value="vetogepek" onchange="filterProducts()"><span>Vetőgépek</span><span class="hf-n">2</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="cat-cb" value="permetezok" onchange="filterProducts()"><span>Permetezők</span><span class="hf-n">1</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="cat-cb" value="talajmuvelok" onchange="filterProducts()"><span>Talajművelők</span><span class="hf-n">1</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gyártó dropdown -->
+                <div class="hf-dropdown" id="hfd-brand">
+                    <button class="hf-btn" onclick="toggleHfd('hfd-brand')" type="button">
+                        Gyártó
+                        <span class="hf-count" id="brandCount" style="display:none">0</span>
+                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l5 5 5-5"/></svg>
+                    </button>
+                    <div class="hf-panel" id="hfd-brand-panel">
+                        <div class="hf-cb-list">
+                            <label class="hf-cb-row"><input type="checkbox" class="brand-cb" value="john-deere" onchange="filterProducts()"><span>John Deere</span><span class="hf-n">2</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="brand-cb" value="fendt" onchange="filterProducts()"><span>Fendt</span><span class="hf-n">1</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="brand-cb" value="claas" onchange="filterProducts()"><span>Claas</span><span class="hf-n">2</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="brand-cb" value="case-ih" onchange="filterProducts()"><span>Case IH</span><span class="hf-n">1</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="brand-cb" value="amazone" onchange="filterProducts()"><span>Amazone</span><span class="hf-n">3</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="brand-cb" value="horsch" onchange="filterProducts()"><span>Horsch</span><span class="hf-n">1</span></label>
+                            <label class="hf-cb-row"><input type="checkbox" class="brand-cb" value="lemken" onchange="filterProducts()"><span>Lemken</span><span class="hf-n">1</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ár dropdown -->
+                <div class="hf-dropdown" id="hfd-price">
+                    <button class="hf-btn" onclick="toggleHfd('hfd-price')" type="button">
+                        Max. ár
+                        <span class="hf-count" id="priceCount" style="display:none">!</span>
+                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l5 5 5-5"/></svg>
+                    </button>
+                    <div class="hf-panel" id="hfd-price-panel">
+                        <div class="hf-price-panel">
+                            <div class="hf-price-val">
+                                <span>Max. ár:</span>
+                                <strong id="priceDisplay">110 M Ft</strong>
+                            </div>
+                            <input type="range" id="priceRange" class="hf-price-slider"
+                                   min="1000000" max="110000000" value="110000000" step="1000000"
+                                   oninput="updatePrice(this); filterProducts()">
+                            <div class="hf-price-minmax"><span>1 M Ft</span><span>110 M Ft</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rendezés -->
+                <div class="hf-sort-wrap">
+                    <select class="hf-sort" id="sortSelect" onchange="filterProducts()">
+                        <option value="">Rendezés</option>
+                        <option value="price-asc">Ár: növekvő ↑</option>
+                        <option value="price-desc">Ár: csökkenő ↓</option>
+                        <option value="name-asc">Név: A–Z</option>
+                    </select>
+                </div>
+
+                <!-- Törlés -->
+                <button class="hf-reset" onclick="resetFilters()" type="button">Törlés</button>
+
+            </div>
+
+            <!-- Találatszám + aktív chipek -->
+            <div class="hf-meta">
+                <span class="hf-meta__count"><strong id="resultsCount">10</strong> gép található</span>
+                <div id="activeChips" style="display:contents"></div>
+            </div>
+
+            <!-- ══ TERMÉK RÁCS ══ -->
+            <div class="pg" id="productsGrid">
+
+                <!-- 1 John Deere 6R 155 AutoPowr -->
+                <article class="product-card"
+                         data-cat="traktorok" data-brand="john-deere"
+                         data-price="28500000" data-name="john deere 6r 155 autopowr traktor">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1592838064575-70ed626d3a0e?w=520&q=80" alt="John Deere 6R 155" loading="lazy">
+                        <span class="pc-badge pc-badge--new">Új</span>
+                        <button class="pc-fav fav-toggle" data-id="jd-6r-155" data-name="John Deere 6R 155 AutoPowr" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">John Deere</span><span class="pc-year">2023</span></div>
+                        <h3 class="pc-name">6R 155 AutoPowr</h3>
+                        <p class="pc-desc">Sokoldalú közepes kategóriás traktor fokozatmentes AutoPowr váltóval. Ideális szántáshoz, tárcsázáshoz és vetőgép vontatáshoz.</p>
+                        <div class="pc-specs"><span class="pc-spec">155 LE</span><span class="pc-spec">4WD</span><span class="pc-spec">2 180 ÓRA</span><span class="pc-spec">Klíma</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>28 500 000 Ft</strong></div>
+                            <a href="termekek/jd-6r-155.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 2 Fendt 724 Vario GEN7 -->
+                <article class="product-card"
+                         data-cat="traktorok" data-brand="fendt"
+                         data-price="32000000" data-name="fendt 724 vario gen7 traktor">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=520&q=80" alt="Fendt 724 Vario GEN7" loading="lazy">
+                        <button class="pc-fav fav-toggle" data-id="fendt-724" data-name="Fendt 724 Vario GEN7" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">Fendt</span><span class="pc-year">2024</span></div>
+                        <h3 class="pc-name">724 Vario GEN7</h3>
+                        <p class="pc-desc">GEN7 platform a világ legjobb fokozatmentes Vario váltójával és Fendt ONE kezelőrendszerrel. Kivételesen alacsony üzemanyag-fogyasztás.</p>
+                        <div class="pc-specs"><span class="pc-spec">240 LE</span><span class="pc-spec">Vario CVT</span><span class="pc-spec">Stage V</span><span class="pc-spec">50 km/h</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>32 000 000 Ft</strong></div>
+                            <a href="termekek/fendt-724.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 3 Claas Axion 960 CMATIC -->
+                <article class="product-card"
+                         data-cat="traktorok" data-brand="claas"
+                         data-price="48000000" data-name="claas axion 960 cmatic traktor">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=520&q=80" alt="Claas Axion 960 CMATIC" loading="lazy">
+                        <span class="pc-badge pc-badge--new">Új</span>
+                        <button class="pc-fav fav-toggle" data-id="claas-axion960" data-name="Claas Axion 960 CMATIC" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">Claas</span><span class="pc-year">2024</span></div>
+                        <h3 class="pc-name">Axion 960 CMATIC</h3>
+                        <p class="pc-desc">Csúcskategóriás traktor CMATIC fokozatmentes váltóval, CEBIS Touch kezeléssel és Auto Headland Management rendszerrel.</p>
+                        <div class="pc-specs"><span class="pc-spec">360 LE</span><span class="pc-spec">CMATIC</span><span class="pc-spec">12 500 kg emelés</span><span class="pc-spec">GPS-Pilot</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>48 000 000 Ft</strong></div>
+                            <a href="termekek/claas-axion-960.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 4 Case IH Optum 300 CVX -->
+                <article class="product-card"
+                         data-cat="traktorok" data-brand="case-ih"
+                         data-price="45000000" data-name="case ih optum 300 cvx traktor">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=520&q=80" alt="Case IH Optum 300 CVX" loading="lazy">
+                        <button class="pc-fav fav-toggle" data-id="case-optum300" data-name="Case IH Optum 300 CVX" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">Case IH</span><span class="pc-year">2023</span></div>
+                        <h3 class="pc-name">Optum 300 CVX</h3>
+                        <p class="pc-desc">300 LE-s CVX fokozatmentes traktor AFS Connect telematikával és AFS Pro 1200 érintőkijelzővel. Nagy emelési kapacitás és megbízhatóság.</p>
+                        <div class="pc-specs"><span class="pc-spec">300 LE</span><span class="pc-spec">CVX váltó</span><span class="pc-spec">AFS Connect</span><span class="pc-spec">50 km/h</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>45 000 000 Ft</strong></div>
+                            <a href="termekek/case-optum-300.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 5 Claas Lexion 8700 TT -->
+                <article class="product-card"
+                         data-cat="kombajnok" data-brand="claas"
+                         data-price="85000000" data-name="claas lexion 8700 tt kombajn">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=520&q=80" alt="Claas Lexion 8700 TT" loading="lazy">
+                        <span class="pc-badge pc-badge--new">Prémium</span>
+                        <button class="pc-fav fav-toggle" data-id="claas-8700" data-name="Claas Lexion 8700 TT" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">Claas</span><span class="pc-year">2023</span></div>
+                        <h3 class="pc-name">Lexion 8700 TT</h3>
+                        <p class="pc-desc">Európa vezető kombájnja Terra Trac félhernyóval és MONTANA dőléskorrekcióval. 12,3 m VARIO vágóasztal és CEMOS Auto AI optimalizáció.</p>
+                        <div class="pc-specs"><span class="pc-spec">790 LE</span><span class="pc-spec">Terra Trac</span><span class="pc-spec">17 500 l</span><span class="pc-spec">12,3 m</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>85 000 000 Ft</strong></div>
+                            <a href="termekek/claas-lexion-8700.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 6 John Deere X9 1100 -->
+                <article class="product-card"
+                         data-cat="kombajnok" data-brand="john-deere"
+                         data-price="110000000" data-name="john deere x9 1100 kombajn">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=520&q=80" alt="John Deere X9 1100" loading="lazy">
+                        <span class="pc-badge pc-badge--new">Prémium</span>
+                        <button class="pc-fav fav-toggle" data-id="jd-x9-1100" data-name="John Deere X9 1100" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">John Deere</span><span class="pc-year">2024</span></div>
+                        <h3 class="pc-name">X9 1100</h3>
+                        <p class="pc-desc">A világ legnagyobb kapacitású kombájnja X9 kettős axiális rotoros szétválasztóval, 13,7 m vágóasztallal és 210 l/s ürítési sebességgel.</p>
+                        <div class="pc-specs"><span class="pc-spec">690 LE</span><span class="pc-spec">X9 kettős</span><span class="pc-spec">14 500 l</span><span class="pc-spec">13,7 m</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>110 000 000 Ft</strong></div>
+                            <a href="termekek/jd-x9-1100.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 7 Horsch Maestro 16 SW -->
+                <article class="product-card"
+                         data-cat="vetogepek" data-brand="horsch"
+                         data-price="12000000" data-name="horsch maestro 16 sw vetogep">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=520&q=80" alt="Horsch Maestro 16 SW" loading="lazy">
+                        <button class="pc-fav fav-toggle" data-id="horsch-maestro" data-name="Horsch Maestro 16 SW" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">Horsch</span><span class="pc-year">2022</span></div>
+                        <h3 class="pc-name">Maestro 16 SW</h3>
+                        <p class="pc-desc">Precíziós 16 soros kukorica- és napraforgó-vetőgép pneumatikus adagolással és soronkénti motorral. ISOBUS section control és variable rate.</p>
+                        <div class="pc-specs"><span class="pc-spec">16 sor</span><span class="pc-spec">45 cm</span><span class="pc-spec">7,2 m</span><span class="pc-spec">ISOBUS</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>12 000 000 Ft</strong></div>
+                            <a href="termekek/horsch-maestro-16.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 8 Amazone EDX 9000-TC -->
+                <article class="product-card"
+                         data-cat="vetogepek" data-brand="amazone"
+                         data-price="18000000" data-name="amazone edx 9000 tc vetogep gabona">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=520&q=80" alt="Amazone EDX 9000-TC" loading="lazy">
+                        <button class="pc-fav fav-toggle" data-id="amazone-edx9000" data-name="Amazone EDX 9000-TC" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">Amazone</span><span class="pc-year">2023</span></div>
+                        <h3 class="pc-name">EDX 9000-TC</h3>
+                        <p class="pc-desc">Nagy kapacitású precíziós gabonavetőgép 9 m munkaszélességgel, TwinCup adagolóval és GPS-alapú section control rendszerrel.</p>
+                        <div class="pc-specs"><span class="pc-spec">9 m</span><span class="pc-spec">72 sor</span><span class="pc-spec">4 500 l</span><span class="pc-spec">GPS</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>18 000 000 Ft</strong></div>
+                            <a href="termekek/amazone-edx-9000.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 9 Amazone UX 11200 Super -->
+                <article class="product-card"
+                         data-cat="permetezok" data-brand="amazone"
+                         data-price="8500000" data-name="amazone ux 11200 super permetezo">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1598986646512-9330bcc4c0dc?w=520&q=80" alt="Amazone UX 11200 Super" loading="lazy">
+                        <button class="pc-fav fav-toggle" data-id="amazone-ux11200" data-name="Amazone UX 11200 Super" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">Amazone</span><span class="pc-year">2022</span></div>
+                        <h3 class="pc-name">UX 11200 Super</h3>
+                        <p class="pc-desc">Nagy tartályos vontatott permetező 11 200 l kapacitással, 36 m szórókeret tel és DUS ultrahangos dózisszabályozással.</p>
+                        <div class="pc-specs"><span class="pc-spec">11 200 l</span><span class="pc-spec">36 m keret</span><span class="pc-spec">GPS</span><span class="pc-spec">ISOBUS</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>8 500 000 Ft</strong></div>
+                            <a href="termekek/amazone-ux-11200.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 10 Lemken Heliodor 9/600 KA -->
+                <article class="product-card"
+                         data-cat="talajmuvelok" data-brand="lemken"
+                         data-price="6500000" data-name="lemken heliodor 9 600 ka talajmuvelo kultivátor">
+                    <div class="pc-img">
+                        <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=520&q=80" alt="Lemken Heliodor 9/600 KA" loading="lazy">
+                        <button class="pc-fav fav-toggle" data-id="lemken-heliodor" data-name="Lemken Heliodor 9/600 KA" aria-label="Kedvencekhez">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-meta2"><span class="pc-brand">Lemken</span><span class="pc-year">2022</span></div>
+                        <h3 class="pc-name">Heliodor 9/600 KA</h3>
+                        <p class="pc-desc">Kompakt tárcsás kultivátor tarlóbeledolgozáshoz, 6 m munkaszélességgel és KA összecsukással. Hydraulikus mélységállítás és tandem tömörítő henger.</p>
+                        <div class="pc-specs"><span class="pc-spec">6 m</span><span class="pc-spec">5–10 cm</span><span class="pc-spec">KA összecsukás</span><span class="pc-spec">460 mm tárcsák</span></div>
+                        <div class="pc-foot">
+                            <div class="pc-price"><span>ártól</span><strong>6 500 000 Ft</strong></div>
+                            <a href="termekek/lemken-heliodor.html" class="btn btn--primary btn--sm">Megtekintés</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Nincs találat -->
+                <div class="no-results" id="noResults">
+                    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <h3>Nincs találat</h3>
+                    <p>A megadott szűrőknek egyetlen gép sem felel meg. Próbáljon tágabb feltételekkel.</p>
+                    <button class="btn btn--outline btn--sm" onclick="resetFilters()" style="margin-top:16px;">Szűrők törlése</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Lábléc -->
+<footer class="footer" role="contentinfo">
+    <div class="footer__bottom">
+        <div class="container">
+            <div class="footer__bottom-row">
+                <p class="footer__copy">© 2025 AgriPro Kft. – Minden jog fenntartva.</p>
+                <nav class="footer__legal" aria-label="Jogi">
+                    <a href="#">Adatvédelem</a>
+                    <a href="#">ÁSZF</a>
+                    <a href="#">Impresszum</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="Vissza a tetejére" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="../js/main.js" defer></script>
+
+<!-- ══ SZŰRŐ + DROPDOWN LOGIKA ══ -->
+<script>
+    /* Dropdown nyitás/zárás */
+    function toggleHfd(id) {
+        var dropdown = document.getElementById(id);
+        var panel    = document.getElementById(id + '-panel');
+        var btn      = dropdown.querySelector('.hf-btn');
+        var isOpen   = panel.classList.contains('open');
+
+        // Zárj be mindent
+        document.querySelectorAll('.hf-panel.open').forEach(function(p) { p.classList.remove('open'); });
+        document.querySelectorAll('.hf-btn.active').forEach(function(b) { b.classList.remove('active'); });
+
+        if (!isOpen) {
+            panel.classList.add('open');
+            btn.classList.add('active');
+        }
+    }
+
+    // Klikk a sávon kívül → bezár
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.hf-dropdown')) {
+            document.querySelectorAll('.hf-panel.open').forEach(function(p) { p.classList.remove('open'); });
+            document.querySelectorAll('.hf-btn.active').forEach(function(b) { b.classList.remove('active'); });
+        }
+    });
+
+    /* Ár megjelenítés */
+    function updatePrice(slider) {
+        var val = Math.round(slider.value / 1000000);
+        document.getElementById('priceDisplay').textContent = val + ' M Ft';
+    }
+
+    /* Fő szűrő függvény */
+    function filterProducts() {
+        var cats   = Array.from(document.querySelectorAll('.cat-cb:checked')).map(function(el){ return el.value; });
+        var brands = Array.from(document.querySelectorAll('.brand-cb:checked')).map(function(el){ return el.value; });
+        var slider = document.getElementById('priceRange');
+        var maxPx  = slider ? parseInt(slider.value, 10) : 999999999;
+        var searchEl = document.getElementById('productSearch');
+        var searchQ  = searchEl ? searchEl.value.trim().toLowerCase() : '';
+        var sortVal  = document.getElementById('sortSelect') ? document.getElementById('sortSelect').value : '';
+
+        var grid  = document.getElementById('productsGrid');
+        var cards = Array.from(grid.querySelectorAll('.product-card[data-cat]'));
+        var visible = 0;
+
+        cards.forEach(function(card) {
+            var cat   = card.getAttribute('data-cat')   || '';
+            var brand = card.getAttribute('data-brand') || '';
+            var price = parseInt(card.getAttribute('data-price') || '0', 10);
+            var name  = (card.getAttribute('data-name') || '').toLowerCase();
+
+            var catOk    = cats.length   === 0 || cats.indexOf(cat) !== -1;
+            var brandOk  = brands.length  === 0 || brands.indexOf(brand) !== -1;
+            var priceOk  = price <= maxPx;
+            var searchOk = searchQ === '' || name.indexOf(searchQ) !== -1 || brand.indexOf(searchQ) !== -1 || cat.indexOf(searchQ) !== -1;
+
+            var show = catOk && brandOk && priceOk && searchOk;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+
+        // Számlálók frissítése
+        var rc = document.getElementById('resultsCount');
+        if (rc) rc.textContent = visible;
+
+        var nr = document.getElementById('noResults');
+        if (nr) nr.style.display = visible === 0 ? 'flex' : 'none';
+
+        // Dropdown badge-ek
+        var catCount = document.getElementById('catCount');
+        if (catCount) { catCount.style.display = cats.length ? 'inline' : 'none'; catCount.textContent = cats.length; }
+        var brandCount = document.getElementById('brandCount');
+        if (brandCount) { brandCount.style.display = brands.length ? 'inline' : 'none'; brandCount.textContent = brands.length; }
+        var priceCount = document.getElementById('priceCount');
+        if (priceCount) { priceCount.style.display = (slider && parseInt(slider.value,10) < parseInt(slider.max,10)) ? 'inline' : 'none'; }
+
+        // Rendezés
+        if (sortVal) {
+            var vis = cards.filter(function(c){ return c.style.display !== 'none'; });
+            vis.sort(function(a, b) {
+                if (sortVal === 'name-asc') {
+                    return (a.getAttribute('data-name') || '').localeCompare(b.getAttribute('data-name') || '', 'hu');
+                }
+                var pa = parseInt(a.getAttribute('data-price') || '0', 10);
+                var pb = parseInt(b.getAttribute('data-price') || '0', 10);
+                return sortVal === 'price-asc' ? pa - pb : pb - pa;
+            });
+            vis.forEach(function(c){ grid.appendChild(c); });
+        }
+
+        renderChips(cats, brands, maxPx, slider ? parseInt(slider.max, 10) : 110000000, searchQ);
+    }
+
+    /* Aktív chip-ek */
+    function renderChips(cats, brands, maxPx, maxSlider, searchQ) {
+        var bar = document.getElementById('activeChips');
+        if (!bar) return;
+        var html = '';
+
+        var catLabels   = { 'traktorok':'Traktorok','kombajnok':'Kombájnok','vetogepek':'Vetőgépek','permetezok':'Permetezők','talajmuvelok':'Talajművelők' };
+        var brandLabels = { 'john-deere':'John Deere','fendt':'Fendt','claas':'Claas','case-ih':'Case IH','amazone':'Amazone','horsch':'Horsch','lemken':'Lemken' };
+
+        cats.forEach(function(v) {
+            html += '<span class="ac-chip">' + (catLabels[v]||v) + '<button onclick="uncheckFilter(\'cat-cb\',\'' + v + '\')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>';
+        });
+        brands.forEach(function(v) {
+            html += '<span class="ac-chip">' + (brandLabels[v]||v) + '<button onclick="uncheckFilter(\'brand-cb\',\'' + v + '\')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>';
+        });
+        if (maxPx < maxSlider) {
+            var mf = Math.round(maxPx / 1000000);
+            html += '<span class="ac-chip">Max ' + mf + ' M Ft<button onclick="resetPrice()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>';
+        }
+        if (searchQ) {
+            html += '<span class="ac-chip">„' + searchQ + '"<button onclick="clearSearch()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>';
+        }
+        bar.innerHTML = html;
+    }
+
+    function uncheckFilter(cls, val) {
+        var el = document.querySelector('.' + cls + '[value="' + val + '"]');
+        if (el) { el.checked = false; filterProducts(); }
+    }
+    function resetPrice() {
+        var s = document.getElementById('priceRange');
+        if (s) { s.value = s.max; updatePrice(s); filterProducts(); }
+    }
+    function clearSearch() {
+        var s = document.getElementById('productSearch');
+        if (s) { s.value = ''; filterProducts(); }
+    }
+    function resetFilters() {
+        document.querySelectorAll('.cat-cb, .brand-cb').forEach(function(cb){ cb.checked = false; });
+        var pr = document.getElementById('priceRange');
+        if (pr) { pr.value = pr.max; updatePrice(pr); }
+        var ss = document.getElementById('sortSelect');
+        if (ss) ss.value = '';
+        var ps = document.getElementById('productSearch');
+        if (ps) ps.value = '';
+        filterProducts();
+    }
+
+    // URL paraméter alapú előszűrés
+    (function() {
+        var kat = new URLSearchParams(window.location.search).get('kat');
+        if (kat) {
+            var cb = document.querySelector('.cat-cb[value="' + kat + '"]');
+            if (cb) { cb.checked = true; filterProducts(); }
+        }
+    })();
+</script>
+</body>
+</html>

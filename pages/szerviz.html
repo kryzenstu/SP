@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szerviz – AgriPro | Gépjavítás, Karbantartás, Alkatrész</title>
+    <meta name="description" content="AgriPro szervizszolgáltatások: garanciális javítás, karbantartás, alkatrészellátás. 4 szervizközpont, 24h reagálás. John Deere, Fendt, Claas szakszerviz.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231B4332'/><path d='M7 22C7 15 11 10 16 9C21 10 25 15 25 22' stroke='%23D4A373' stroke-width='2.5' stroke-linecap='round' fill='none'/><circle cx='16' cy='22' r='3.5' fill='%23D4A373'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        [data-animate] { opacity: 1 !important; transform: none !important; }
+
+        .page-hero { background: var(--clr-primary); padding: calc(var(--nav-h) + 36px) 0 40px; }
+        .page-hero__bc { display: flex; align-items: center; gap: 8px; font-size: .78rem; color: rgba(255,255,255,.55); margin-bottom: 12px; }
+        .page-hero__bc a { color: var(--clr-accent); }
+        .page-hero h1 { color: #fff; font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: 8px; }
+        .page-hero p  { color: rgba(255,255,255,.65); font-size: .95rem; }
+
+        /* Gyors infó kártyák */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .info-card {
+            background: #fff;
+            border: 1px solid var(--clr-border);
+            border-radius: var(--r-lg);
+            padding: 28px 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .info-card__icon {
+            width: 48px; height: 48px; flex-shrink: 0;
+            background: rgba(27,67,50,.08);
+            border-radius: var(--r-md);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--clr-primary);
+        }
+        .info-card h3 { font-size: .95rem; font-weight: 700; margin-bottom: 4px; }
+        .info-card p  { font-size: .82rem; color: var(--clr-text-lt); line-height: 1.6; }
+        .info-card strong { color: var(--clr-primary); }
+
+        /* Szervizszolgáltatások */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .service-card {
+            background: #fff;
+            border: 1px solid var(--clr-border);
+            border-radius: var(--r-lg);
+            padding: 28px 24px;
+            transition: box-shadow .25s, transform .25s, border-color .25s;
+        }
+        .service-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); border-color: transparent; }
+        .service-card__icon {
+            width: 52px; height: 52px;
+            background: rgba(27,67,50,.08);
+            border-radius: var(--r-md);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--clr-primary);
+            margin-bottom: 16px;
+        }
+        .service-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+        .service-card p  { font-size: .85rem; color: var(--clr-text-lt); line-height: 1.65; margin-bottom: 16px; }
+        .service-card ul { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+        .service-card li { font-size: .82rem; color: var(--clr-text-md); display: flex; align-items: center; gap: 8px; }
+        .service-card li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--clr-primary); flex-shrink: 0; }
+
+        /* Folyamat lépések */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+        }
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 32px;
+            left: calc(12.5%);
+            right: calc(12.5%);
+            height: 2px;
+            background: var(--clr-border);
+            z-index: 0;
+        }
+        .step {
+            text-align: center;
+            padding: 0 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .step__num {
+            width: 64px; height: 64px;
+            background: var(--clr-primary);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            border: 4px solid var(--clr-bg-alt);
+        }
+        .step h4 { font-size: .95rem; font-weight: 700; margin-bottom: 8px; }
+        .step p  { font-size: .82rem; color: var(--clr-text-lt); line-height: 1.6; }
+
+        /* Szervizpontok */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        .location-card {
+            background: #fff;
+            border: 1px solid var(--clr-border);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .location-card__head {
+            background: var(--clr-primary);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .location-card__head h3 { color: #fff; font-size: 1.05rem; margin: 0; }
+        .location-card__badge {
+            background: var(--clr-accent);
+            color: #0F2A1E;
+            font-size: .65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            padding: 3px 9px;
+            border-radius: 99px;
+        }
+        .location-card__body { padding: 22px 24px; flex: 1; }
+        .location-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--clr-border);
+            font-size: .875rem;
+        }
+        .location-row:last-child { border-bottom: none; }
+        .location-row svg { color: var(--clr-primary); flex-shrink: 0; margin-top: 2px; }
+        .location-row strong { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--clr-text-lt); margin-bottom: 2px; }
+
+        /* Garancia táblázat */
+        .warranty-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .875rem;
+        }
+        .warranty-table th {
+            background: var(--clr-primary);
+            color: #fff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: .82rem;
+        }
+        .warranty-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--clr-border);
+            color: var(--clr-text);
+        }
+        .warranty-table tr:nth-child(even) td { background: var(--clr-bg-alt); }
+        .warranty-table tr:last-child td { border-bottom: none; }
+        .wt-check { color: #22863a; font-weight: 700; }
+
+        /* Márkák amelyekre szervizszolgáltatunk */
+        .brand-service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .brand-service-card {
+            background: #fff;
+            border: 1.5px solid var(--clr-border);
+            border-radius: var(--r-lg);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .brand-service-card:hover { border-color: var(--clr-primary); box-shadow: 0 4px 16px rgba(27,67,50,.1); }
+        .brand-service-card__dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: var(--clr-primary);
+            flex-shrink: 0;
+        }
+        .brand-service-card h4 { font-size: .95rem; font-weight: 700; margin-bottom: 2px; }
+        .brand-service-card span { font-size: .75rem; color: var(--clr-text-lt); }
+
+        /* CTA sáv */
+        .cta-band {
+            background: var(--clr-primary);
+            border-radius: var(--r-lg);
+            padding: 48px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .cta-band h2 { color: #fff; font-size: clamp(1.2rem, 2.5vw, 1.6rem); margin-bottom: 8px; }
+        .cta-band p { color: rgba(255,255,255,.7); font-size: .95rem; }
+        .cta-band__btns { display: flex; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+
+        @media (max-width: 1100px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 900px) {
+            .info-cards { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+            .locations-grid { grid-template-columns: 1fr; }
+            .brand-service-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-steps { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+            .process-steps::before { display: none; }
+        }
+        @media (max-width: 560px) {
+            .brand-service-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr; }
+            .cta-band { padding: 32px 24px; text-align: center; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header scrolled" id="header" role="banner">
+    <div class="container">
+        <nav class="nav" role="navigation" aria-label="Főmenü">
+            <a href="../index.html" class="nav__logo" aria-label="AgriPro főoldal">
+                <div class="logo">
+                    <svg class="logo__icon" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                        <rect width="36" height="36" rx="8" fill="#1B4332"/>
+                        <path d="M8 26C8 18 12 12 18 11C24 12 28 18 28 26" stroke="#D4A373" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="18" cy="26" r="4" fill="#D4A373"/>
+                    </svg>
+                    <span class="logo__text">Agri<strong>Pro</strong></span>
+                </div>
+            </a>
+            <ul class="nav__menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav__link" role="menuitem">Főoldal</a></li>
+                <li class="nav__item--has-dropdown" role="none">
+                    <button class="nav__link nav__dropdown-toggle" aria-expanded="false" aria-haspopup="true" role="menuitem">
+                        Termékek <svg class="dropdown-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    </button>
+                    <div class="nav__dropdown" role="menu">
+                        <a href="termekek.html?kat=traktorok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🚜</span>Traktorok</a>
+                        <a href="termekek.html?kat=kombajnok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🌾</span>Kombájnok</a>
+                        <a href="termekek.html?kat=talajmuvelok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">⚙️</span>Talajművelők</a>
+                        <a href="termekek.html?kat=vetogepek" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">🌱</span>Vetőgépek</a>
+                        <a href="termekek.html?kat=permetezok" class="nav__dropdown-item" role="menuitem"><span class="dropdown-icon">💧</span>Permetezők</a>
+                    </div>
+                </li>
+                <li role="none"><a href="../index.html#markak" class="nav__link" role="menuitem">Márkák</a></li>
+                <li role="none"><a href="rolunk.html" class="nav__link" role="menuitem">Rólunk</a></li>
+                <li role="none"><a href="szerviz.html" class="nav__link nav__link--active" role="menuitem">Szerviz</a></li>
+                <li role="none"><a href="kapcsolat.html" class="nav__link" role="menuitem">Kapcsolat</a></li>
+            </ul>
+            <div class="nav__actions">
+                <button class="icon-btn" id="searchToggle" aria-label="Keresés">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
+                <button class="icon-btn fav-btn" id="favToggle" aria-label="Kedvencek">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <span class="fav-badge" id="favBadge" hidden>0</span>
+                </button>
+                <a href="kapcsolat.html" class="btn btn--primary btn--sm">Ajánlatkérés</a>
+                <button class="hamburger" id="hamburger" aria-label="Menü" aria-expanded="false">
+                    <span class="hamburger__bar"></span><span class="hamburger__bar"></span><span class="hamburger__bar"></span>
+                </button>
+            </div>
+        </nav>
+    </div>
+    <div class="search-overlay" id="searchOverlay" hidden role="search">
+        <div class="container">
+            <div class="search-overlay__inner">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="search" id="searchInput" class="search-overlay__input" placeholder="Keresés: gép neve, márka, kategória..." autocomplete="off">
+                <button class="search-overlay__close" id="searchClose" aria-label="Bezárás">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="search-results" id="searchResults" hidden></div>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <!-- Hero -->
+    <div class="page-hero">
+        <div class="container">
+            <nav class="page-hero__bc" aria-label="Navigáció">
+                <a href="../index.html">Főoldal</a><span>›</span><span>Szerviz</span>
+            </nav>
+            <h1>Személyes szervizszolgáltatás</h1>
+            <p>Személyesen intézem minden szervizigényét — 24 órás reagálás, gyári alkatrészek, terepi kiszállás.</p>
+        </div>
+    </div>
+
+    <!-- Gyors info -->
+    <section class="section" style="padding-bottom: 32px;">
+        <div class="container">
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card__icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                        <h3>24 órás reagálás</h3>
+                        <p>Bejelentés után <strong>24 órán belül</strong> személyesen reagálok, szezonban 4 órán belül indulok.</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card__icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    </div>
+                    <div>
+                        <h3>Gyári alkatrészek</h3>
+                        <p>Kizárólag <strong>eredeti gyári alkatrészeket</strong> használunk, amelyek nem érvénytelenítik a garanciát.</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card__icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                        <h3>Garantált minőség</h3>
+                        <p>Minden elvégzett szervizmunkára <strong>12 hónap munkajótállást</strong> vállalunk.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Szervizszolgáltatások -->
+    <section class="section section--bg">
+        <div class="container">
+            <div style="text-align:center; margin-bottom: 48px;">
+                <span class="section__tag">Szolgáltatásaink</span>
+                <h2 class="section__title">Mit vállalunk?</h2>
+                <p class="section__sub" style="max-width: 540px; margin: 0 auto;">
+                    A diagnosztikától a teljes felújításig mindenre kiterjedő szervizkapacitással rendelkezünk.
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-card__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 7.76a6 6 0 0 0 0 8.49"/></svg>
+                    </div>
+                    <h3>Elektronikus diagnosztika</h3>
+                    <p>Gyári szintű diagnosztikai eszközökkel percek alatt azonosítjuk a hibát, felesleges szétszerelés nélkül.</p>
+                    <ul>
+                        <li>John Deere Service Advisor</li>
+                        <li>Fendt VarioDoc Pro</li>
+                        <li>Claas EASY diagnózis</li>
+                        <li>CAN-bus hibaolvasás</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    </div>
+                    <h3>Motor- és hajtáslánc javítás</h3>
+                    <p>Motorfelújítástól a CVT váltók javításáig teljes körű hajtáslánc-szerviz saját műhelyünkben.</p>
+                    <ul>
+                        <li>Motor felülvizsgálat és felújítás</li>
+                        <li>Fokozatmentes váltó szerviz</li>
+                        <li>Hidraulika rendszer javítás</li>
+                        <li>Tengelykapcsoló csere</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <h3>Precíziós elektronika</h3>
+                    <p>GPS rendszerek telepítése, kalibrálása és frissítése. Táblatérkép készítés és hozamtérkép elemzés.</p>
+                    <ul>
+                        <li>John Deere StarFire telepítés</li>
+                        <li>AutoTrac kormányzás beállítás</li>
+                        <li>ISOBUS rendszer konfiguráció</li>
+                        <li>Section Control kalibrálás</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </div>
+                    <h3>Terepi szerviz</h3>
+                    <p>Felszerelt szervizautóval kimegyek a tábláig. Sürgős esetben a gép nem kell, hogy beérjen a telephelyre.</p>
+                    <ul>
+                        <li>Helyszíni hibaelhárítás</li>
+                        <li>Szezonban napi kiszállás</li>
+                        <li>Alkatrész-utánpótlás saját raktárból</li>
+                        <li>Cseredarab kölcsönzés lehetősége</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    </div>
+                    <h3>Alkatrész-ellátás</h3>
+                    <p>Raktáron tartott 5 000+ eredeti alkatrész. Nem raktáron lévő tétel esetén 48 órás szállítás.</p>
+                    <ul>
+                        <li>Gyári eredeti alkatrészek</li>
+                        <li>Kopóalkatrész készlet</li>
+                        <li>Szűrő, ékszíj, lánc raktáron</li>
+                        <li>Expresz rendelési lehetőség</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <h3>Operátorképzés</h3>
+                    <p>Új gép átadásakor és igény szerint betanítjuk a kezelőket a hatékony és gépkímélő üzemeltetésre.</p>
+                    <ul>
+                        <li>Egyéni és csoportos tréning</li>
+                        <li>GPS és precíziós funkciók oktatás</li>
+                        <li>Szezon előtti frissítő tanfolyam</li>
+                        <li>Online dokumentáció hozzáférés</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Szervizfolyamat -->
+    <section class="section">
+        <div class="container">
+            <div style="text-align:center; margin-bottom: 56px;">
+                <span class="section__tag">Hogyan működik?</span>
+                <h2 class="section__title">Szerviz – lépésről lépésre</h2>
+            </div>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step__num">1</div>
+                    <h4>Bejelentés</h4>
+                    <p>Hívjon minket, töltse ki az online űrlapot, vagy írjon e-mailt. 24 órán belül visszahívjuk.</p>
+                </div>
+                <div class="step">
+                    <div class="step__num">2</div>
+                    <h4>Felmérés</h4>
+                    <p>Szerelőnk terepi vagy műhelyi vizsgálattal megállapítja a hiba pontos okát és mértékét.</p>
+                </div>
+                <div class="step">
+                    <div class="step__num">3</div>
+                    <h4>Árajánlat</h4>
+                    <p>Részletes, tételenkénti árajánlatot küldök. Munka csak az Ön jóváhagyása után indul.</p>
+                </div>
+                <div class="step">
+                    <div class="step__num">4</div>
+                    <h4>Javítás és átadás</h4>
+                    <p>Elvégezzük a munkát, teszteljük a gépet, majd átadjuk a 12 hónapos munkajótállással.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Szervizpontok -->
+    <section class="section section--bg" id="szervizpontok">
+        <div class="container">
+            <div style="text-align:center; margin-bottom: 40px;">
+                <span class="section__tag">Helyszín</span>
+                <h2 class="section__title">Ahol megtalál</h2>
+                <p class="section__sub" style="max-width:500px; margin: 0 auto;">
+                    Egyetlen telephely — de terepi kiszállással az egész régióban elérhető vagyok.
+                </p>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px; align-items:start;">
+                <div class="location-card">
+                    <div class="location-card__head">
+                        <h3>Békéscsaba — Telephely</h3>
+                        <span class="location-card__badge">Egyetlen telephely</span>
+                    </div>
+                    <div class="location-card__body">
+                        <div class="location-row">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <div><strong>Cím</strong>5600 Békéscsaba, Agráripar út 12.</div>
+                        </div>
+                        <div class="location-row">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <div><strong>Telefon</strong><a href="tel:+36301234567" style="color:var(--clr-primary);font-weight:600;">+36 30 123 4567</a></div>
+                        </div>
+                        <div class="location-row">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            <div><strong>E-mail</strong><a href="mailto:info@agripro.hu" style="color:var(--clr-primary);font-weight:600;">info@agripro.hu</a></div>
+                        </div>
+                        <div class="location-row">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <div><strong>Nyitvatartás</strong>H–P: 08:00–17:00 | Szo: 09:00–12:00</div>
+                        </div>
+                        <div class="location-row">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                            <div><strong>Telephely</strong>Saját műhely és bemutatótér</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="background:#fff; border:1px solid var(--clr-border); border-radius:var(--r-lg); padding:28px 24px; margin-bottom:20px;">
+                        <h3 style="font-size:1rem; font-weight:700; margin-bottom:8px;">Terepi kiszállás</h3>
+                        <p style="font-size:.875rem; color:var(--clr-text-lt); line-height:1.7; margin-bottom:16px;">
+                            Nem kell minden esetben behozni a gépet. Felszerelt szervizautóval kimegyek a tábláig — különösen szezonban, amikor az idő kritikus.
+                        </p>
+                        <ul style="display:flex;flex-direction:column;gap:8px;list-style:none;padding:0;margin:0;">
+                            <li style="display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--clr-text-md);"><span style="width:8px;height:8px;border-radius:50%;background:var(--clr-primary);flex-shrink:0;display:inline-block;"></span>Békés megye — 2 órán belül</li>
+                            <li style="display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--clr-text-md);"><span style="width:8px;height:8px;border-radius:50%;background:var(--clr-primary);flex-shrink:0;display:inline-block;"></span>Csongrád, Hajdú-Bihar megye — aznap</li>
+                            <li style="display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--clr-text-md);"><span style="width:8px;height:8px;border-radius:50%;background:var(--clr-primary);flex-shrink:0;display:inline-block;"></span>Más régió — egyeztetés alapján</li>
+                        </ul>
+                    </div>
+                    <div style="background:rgba(27,67,50,.05); border:1.5px solid rgba(27,67,50,.15); border-radius:var(--r-lg); padding:24px;">
+                        <p style="font-size:.9rem; color:var(--clr-text-md); line-height:1.7; margin:0;">
+                            <strong style="color:var(--clr-primary);">Fontos:</strong> Egyéni vállalkozóként a legőszintébb tanácsot adom — nem jutalékos értékesítési célokért, hanem mert a jó hírem a legértékesebb tőkém.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Márkák amelyekre szervizszolgáltatunk -->
+    <section class="section">
+        <div class="container">
+            <div style="text-align:center; margin-bottom: 40px;">
+                <span class="section__tag">Szakképzett szerelők</span>
+                <h2 class="section__title">Márkák, amelyekhez értünk</h2>
+                <p class="section__sub" style="max-width:500px; margin: 0 auto;">
+                    Minden márkánál gyári képzésen átesett, tanúsított szerelőink vannak.
+                </p>
+            </div>
+            <div class="brand-service-grid">
+                <div class="brand-service-card">
+                    <div class="brand-service-card__dot"></div>
+                    <div><h4>John Deere</h4><span>Platinum szervizpartner</span></div>
+                </div>
+                <div class="brand-service-card">
+                    <div class="brand-service-card__dot"></div>
+                    <div><h4>Fendt</h4><span>Authorized Service Partner</span></div>
+                </div>
+                <div class="brand-service-card">
+                    <div class="brand-service-card__dot"></div>
+                    <div><h4>Claas</h4><span>Hivatalos szervizpartner</span></div>
+                </div>
+                <div class="brand-service-card">
+                    <div class="brand-service-card__dot"></div>
+                    <div><h4>Case IH</h4><span>Certified Dealer Service</span></div>
+                </div>
+                <div class="brand-service-card">
+                    <div class="brand-service-card__dot"></div>
+                    <div><h4>New Holland</h4><span>Authorized Service Center</span></div>
+                </div>
+                <div class="brand-service-card">
+                    <div class="brand-service-card__dot"></div>
+                    <div><h4>Amazone</h4><span>Szerelői tanúsítvány</span></div>
+                </div>
+                <div class="brand-service-card">
+                    <div class="brand-service-card__dot"></div>
+                    <div><h4>Massey Ferguson</h4><span>Képzett szervizcsapat</span></div>
+                </div>
+                <div class="brand-service-card">
+                    <div class="brand-service-card__dot"></div>
+                    <div><h4>Horsch</h4><span>Szakképzett szerelők</span></div>
+                </div>
+                <div class="brand-service-card">
+                    <div class="brand-service-card__dot"></div>
+                    <div><h4>Lemken</h4><span>Lemken Service Network</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="padding-top:0;">
+        <div class="container">
+            <div class="cta-band">
+                <div>
+                    <h2>Szervizigénye van? Hívjon most!</h2>
+                    <p>Hétköznap 08–17 óra között veszem fel a telefont. Szezonban este is elérhető vagyok.</p>
+                </div>
+                <div class="cta-band__btns">
+                    <a href="tel:+36301234567" class="btn btn--accent">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        +36 30 123 4567
+                    </a>
+                    <a href="kapcsolat.html" class="btn btn--outline-white">Online bejelentés</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+    <div class="footer__bottom">
+        <div class="container">
+            <div class="footer__bottom-row">
+                <p class="footer__copy">© 2025 AgriPro Kft. – Minden jog fenntartva.</p>
+                <nav class="footer__legal" aria-label="Jogi">
+                    <a href="#">Adatvédelem</a>
+                    <a href="#">ÁSZF</a>
+                    <a href="#">Impresszum</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="Vissza a tetejére" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<script src="../js/main.js" defer></script>
+</body>
+</html>
