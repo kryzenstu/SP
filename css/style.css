@@ -336,6 +336,17 @@ p { color: var(--clr-text-md); }
     box-shadow: var(--shadow-sm);
 }
 
+/* Átlátszó fejléc (hero tetején) – világos szöveg */
+.header:not(.scrolled) .nav__link { color: rgba(255,255,255,.8); }
+.header:not(.scrolled) .nav__link:hover,
+.header:not(.scrolled) .nav__link--active { color: #fff; background: rgba(255,255,255,.12); }
+.header:not(.scrolled) .logo__text { color: #fff; }
+.header:not(.scrolled) .logo__text strong { color: var(--clr-accent); }
+.header:not(.scrolled) .icon-btn { color: rgba(255,255,255,.8); }
+.header:not(.scrolled) .icon-btn:hover { color: #fff; background: rgba(255,255,255,.12); }
+.header:not(.scrolled) .hamburger__bar { background: #fff; }
+.header:not(.scrolled) .dropdown-chevron path { stroke: rgba(255,255,255,.8); }
+
 .nav {
     display: flex;
     align-items: center;
@@ -1316,7 +1327,9 @@ p { color: var(--clr-text-md); }
     /* Navigáció mobilon */
     .nav__menu { display: none; }
     .hamburger { display: flex; }
-    .nav__actions .btn { display: none; } /* CTA elrejtve mobilon – megjelenik hamburger menüben */
+    .nav__actions { margin-left: auto; }
+    .nav__actions .btn { display: none; }
+    .nav__actions .icon-btn { display: none; }
 
     .hero { padding: calc(var(--nav-h) + 36px) 0 60px; }
     .hero__stats { gap: 20px; }
