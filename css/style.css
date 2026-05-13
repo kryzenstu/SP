@@ -461,8 +461,8 @@ p { color: var(--clr-text-md); }
 .mobile-overlay {
     display: none;
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.5);
+    top: var(--nav-h); left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,.45);
     z-index: 800;
     opacity: 0;
     transition: opacity var(--dur-base) var(--ease);
@@ -472,18 +472,20 @@ p { color: var(--clr-text-md); }
 /* Mobil nav drawer */
 .mobile-nav {
     position: fixed;
-    top: 0; right: 0;
+    top: var(--nav-h); right: 0;
     width: min(320px, 90vw);
-    height: 100dvh;
+    height: calc(100dvh - var(--nav-h));
     background: #fff;
     z-index: 850;
-    padding: calc(var(--nav-h) + 24px) 24px 40px;
+    padding: 20px 24px 40px;
     transform: translateX(100%);
     transition: transform var(--dur-slow) var(--ease);
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 4px;
+    border-top: 1px solid var(--clr-border);
+    box-shadow: -4px 0 24px rgba(0,0,0,.08);
 }
 .mobile-nav.open { transform: translateX(0); }
 .mobile-nav__link {
