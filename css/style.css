@@ -470,15 +470,15 @@ p { color: var(--clr-text-md); }
 
 /* Mobil menü overlay */
 .mobile-overlay {
-    display: none;
+    visibility: hidden;
     position: fixed;
     top: var(--nav-h); left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,.45);
     z-index: 800;
     opacity: 0;
-    transition: opacity var(--dur-base) var(--ease);
+    transition: opacity var(--dur-base) var(--ease), visibility var(--dur-base) var(--ease);
 }
-.mobile-overlay.open { opacity: 1; }
+.mobile-overlay.open { visibility: visible; opacity: 1; }
 
 /* Mobil nav drawer */
 .mobile-nav {

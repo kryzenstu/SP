@@ -19,6 +19,21 @@
 
 'use strict';
 
+/* Oldalszint érzékelés – mobilmenü linkek helyes feloldásához */
+const _p = window.location.pathname;
+const PAGE_DEPTH = _p.includes('/pages/termekek/') ? 2 : _p.includes('/pages/') ? 1 : 0;
+function navUrl(key) {
+    const map = {
+        home:     ['index.html',       '../index.html',       '../../index.html'],
+        markak:   ['index.html#markak','../index.html#markak','../../index.html#markak'],
+        termekek: ['pages/termekek.html','termekek.html',    '../termekek.html'],
+        rolunk:   ['pages/rolunk.html',  'rolunk.html',      '../rolunk.html'],
+        szerviz:  ['pages/szerviz.html', 'szerviz.html',     '../szerviz.html'],
+        kapcsolat:['pages/kapcsolat.html','kapcsolat.html',  '../kapcsolat.html'],
+    };
+    return (map[key] || map.home)[PAGE_DEPTH];
+}
+
 /* ══════════════════════════════════════════
    1. SEGÉDFÜGGVÉNYEK
 ══════════════════════════════════════════ */
@@ -88,21 +103,20 @@ function initNavigation() {
         mobileNav.className = 'mobile-nav';
         mobileNav.setAttribute('aria-label', 'Mobil főmenü');
         mobileNav.innerHTML = `
-            <a class="mobile-nav__link" href="/">🏠 Főoldal</a>
+            <a class="mobile-nav__link" href="${navUrl('home')}">🏠 Főoldal</a>
             <div class="mobile-nav__divider"></div>
-            <a class="mobile-nav__link" href="pages/termekek.html?kat=traktorok">🚜 Traktorok</a>
-            <a class="mobile-nav__link" href="pages/termekek.html?kat=kombajnok">🌾 Kombájnok</a>
-            <a class="mobile-nav__link" href="pages/termekek.html?kat=talajmuvelok">⚙️ Talajművelők</a>
-            <a class="mobile-nav__link" href="pages/termekek.html?kat=vetogepek">🌱 Vetőgépek</a>
-            <a class="mobile-nav__link" href="pages/termekek.html?kat=permetezok">💧 Permetezők</a>
-            <a class="mobile-nav__link" href="pages/termekek.html?kat=alkatreszek">🔧 Alkatrészek</a>
+            <a class="mobile-nav__link" href="${navUrl('termekek')}?kat=traktorok">🚜 Traktorok</a>
+            <a class="mobile-nav__link" href="${navUrl('termekek')}?kat=kombajnok">🌾 Kombájnok</a>
+            <a class="mobile-nav__link" href="${navUrl('termekek')}?kat=talajmuvelok">⚙️ Talajművelők</a>
+            <a class="mobile-nav__link" href="${navUrl('termekek')}?kat=vetogepek">🌱 Vetőgépek</a>
+            <a class="mobile-nav__link" href="${navUrl('termekek')}?kat=permetezok">💧 Permetezők</a>
             <div class="mobile-nav__divider"></div>
-            <a class="mobile-nav__link" href="#markak">Márkák</a>
-            <a class="mobile-nav__link" href="#">Rólunk</a>
-            <a class="mobile-nav__link" href="#">Szerviz</a>
-            <a class="mobile-nav__link" href="pages/kapcsolat.html">Kapcsolat</a>
+            <a class="mobile-nav__link" href="${navUrl('markak')}">Márkák</a>
+            <a class="mobile-nav__link" href="${navUrl('rolunk')}">Rólunk</a>
+            <a class="mobile-nav__link" href="${navUrl('szerviz')}">Szerviz</a>
+            <a class="mobile-nav__link" href="${navUrl('kapcsolat')}">Kapcsolat</a>
             <div class="mobile-nav__divider"></div>
-            <a class="btn btn--primary mobile-nav__cta" href="pages/kapcsolat.html">Ajánlatkérés</a>
+            <a class="btn btn--primary mobile-nav__cta" href="${navUrl('kapcsolat')}">Ajánlatkérés</a>
         `;
         document.body.appendChild(mobileNav);
 
